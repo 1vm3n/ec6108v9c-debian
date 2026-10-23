@@ -1,0 +1,7 @@
+# 放到 /etc/ssh/sshd_config.d/99-hardening.conf
+# 注意：改名后先确认本地能用密钥登录，再重启 sshd，否则会把自己锁在外面
+PermitRootLogin prohibit-password
+PasswordAuthentication no
+PubkeyAuthentication yes
+MaxAuthTries 3
+ClientAliveInterval 120

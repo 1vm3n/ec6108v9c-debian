@@ -1,0 +1,27 @@
+# 构建产物
+*.o
+*.ko
+*.dtb
+*.uImage
+zImage
+zImage-dtb
+out/
+
+# 固件与镜像（版权 / 体积）
+*.img
+*.bin
+usb-fat-backup/
+emmc-bootbak/
+rootfs*/
+
+# 归档与日志
+*.tgz
+*.zip
+*.log
+*.md5
+
+# 本地配置与凭据
+.env
+secrets/
+*.key
+id_*

@@ -1,0 +1,13 @@
+[Unit]
+Description=Dump boot telemetry to the USB FAT (late, after networking)
+After=multi-user.target network-online.target
+Wants=network-online.target
+ConditionPathExists=/usr/local/sbin/boot-report.sh
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/sbin/boot-report.sh late
+
+# 注意：不要加 [Install] WantedBy=multi-user.target
+# 否则会被算进启动事务，配合延时会让 "Startup finished" 被拖长

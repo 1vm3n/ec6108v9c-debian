@@ -1,0 +1,26 @@
+--- a/arch/arm/boot/dts/hisilicon/hi3798mv100-ec6108v9c.dts
++++ b/arch/arm/boot/dts/hisilicon/hi3798mv100-ec6108v9c.dts
+@@ -164,8 +164,21 @@
+ 	fifo-depth = <256>;
+ 	clock-frequency = <100000000>;
+ 	cap-mmc-highspeed;
+-	mmc-ddr-1_8v;
+-	mmc-hs200-1_8v;
++
++	/*
++	 * EC6108V9C: eMMC (H8G4a, 8 GB) is an 8-bit part.  Without "bus-width"
++	 * mmc_of_parse() assumes 1 bit and mmc_validate_host_caps() then warns
++	 * "drop UHS/DDR/HS200 support since 1-bit bus only" -- measured 2 MB/s.
++	 *
++	 * Stage 1: 8-bit data bus + high-speed timing only (3.3 V I/O, 52 MHz).
++	 * The 1.8 V modes (mmc-ddr-1_8v / mmc-hs200-1_8v) are deliberately left
++	 * out: the board has no vqmmc regulator and switching the rail blind
++	 * risks a non-booting card.
++	 */
++	bus-width = <8>;
++	pinctrl-names = "default";
++	pinctrl-0 = <&emmc_data>, <&emmc_ccmd>, <&emmc_cclk_out>, <&emmc_rst>;
++
+ 	non-removable;
+ 	status = "okay";
+ };

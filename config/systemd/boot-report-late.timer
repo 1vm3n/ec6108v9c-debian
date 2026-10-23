@@ -1,0 +1,9 @@
+[Unit]
+Description=Run boot-report-late 30 s after boot (kept out of the boot transaction)
+
+[Timer]
+OnBootSec=30s
+Unit=boot-report-late.service
+
+[Install]
+WantedBy=timers.target

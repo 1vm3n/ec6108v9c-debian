@@ -1,0 +1,24 @@
+[Unit]
+Description=ttyd - web terminal (xterm.js)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=lumen
+Group=lumen
+
+# --writable   : ttyd 默认只读，不加这一项客户端无法输入
+# --index      : 自定义首页（可预设字体）
+# --credential : Basic Auth，密码至少 12 位（Filebrowser 不限，ttyd 随便）
+#                注意：密码在 ExecStart 里，本机任何用户 ps/systemctl cat 可见
+ExecStart=/usr/local/bin/ttyd --port 7681 --interface 0.0.0.0 --writable \
+          --credential lumen:CHANGE_ME_AT_LEAST_12 \
+          /usr/bin/tmux new -A -s web
+
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=yes
+
+[Install]
+WantedBy=multi-user.target

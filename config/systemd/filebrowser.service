@@ -1,0 +1,20 @@
+[Unit]
+Description=Filebrowser - web file manager
+After=network-online.target local-fs.target
+Wants=network-online.target
+
+# 数据盘挂载后再启动；没有这行，先启动会读到空目录
+RequiresMountsFor=/srv/repo
+
+[Service]
+Type=simple
+User=lumen
+Group=lumen
+ExecStart=/usr/local/bin/filebrowser -a 0.0.0.0 -p 8080 -r /srv/repo -d /var/lib/filebrowser/filebrowser.db
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=yes
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target

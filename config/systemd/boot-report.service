@@ -1,0 +1,12 @@
+[Unit]
+Description=Dump boot telemetry to the USB FAT (early)
+After=local-fs.target
+ConditionPathExists=/usr/local/sbin/boot-report.sh
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/sbin/boot-report.sh early
+
+[Install]
+WantedBy=multi-user.target

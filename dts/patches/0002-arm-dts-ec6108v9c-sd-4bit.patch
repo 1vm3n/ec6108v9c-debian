@@ -1,0 +1,22 @@
+--- a/arch/arm/boot/dts/hisilicon/hi3798mv100-ec6108v9c.dts
++++ b/arch/arm/boot/dts/hisilicon/hi3798mv100-ec6108v9c.dts
+@@ -243,6 +243,19 @@
+ };
+ 
+ &sd {
++	/*
++	 * EC6108V9C SD slot (SDIO0, dw-mshc).  Without bus-width the core falls
++	 * back to 1 bit and without cap-sd-highspeed it stays at 25 MHz default
++	 * speed -- measured ~2 MB/s.
++	 *
++	 * The SoC's SDIO0 clock mux only offers 15/50/75/100 MHz, so 50 MHz x
++	 * 4 bit = 25 MB/s is the realistic ceiling.  UHS-I (SDR50/SDR104) is
++	 * deliberately not declared: it needs 1.8 V signalling and this board
++	 * runs a fixed 12 V -> 3.3 V rail.
++	 */
++	bus-width = <4>;
++	cap-sd-highspeed;
++	max-frequency = <50000000>;
+ 	status = "okay";
+ };
+ 
